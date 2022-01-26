@@ -50,47 +50,52 @@ class WeatherSummary extends StatelessWidget {
 
   Widget _mapWeatherConditionToImage(
       WeatherCondition condition, bool isDayTime) {
+    String asset;
     Widget svgIcon;
     switch (condition) {
       case WeatherCondition.thunderstorm:
-        svgIcon = SvgPicture.asset('assets/images/thunder.svg');
+        asset = 'assets/images/thunder.svg';
         break;
       case WeatherCondition.heavyCloud:
-        svgIcon = SvgPicture.asset('assets/images/cloudy.svg');
+        asset = 'assets/images/cloudy.svg';
         break;
       case WeatherCondition.lightCloud:
         isDayTime
-            ? svgIcon = SvgPicture.asset('assets/images/cloudy-day-2.svg')
-            : svgIcon = SvgPicture.asset('assets/images/cloudy-night-2.svg');
+            ? asset = 'assets/images/cloudy-day-2.svg'
+            : asset = 'assets/images/cloudy-night-2.svg';
         break;
       case WeatherCondition.drizzle:
-        svgIcon = SvgPicture.asset('assets/images/rainy-4.svg');
+        asset = 'assets/images/rainy-4.svg';
         break;
       case WeatherCondition.mist:
-        svgIcon = SvgPicture.asset('assets/images/cloudy.svg');
+        asset = 'assets/images/cloudy.svg';
         break;
       case WeatherCondition.clear:
         isDayTime
-            ? svgIcon = SvgPicture.asset('assets/images/day.svg')
-            : svgIcon = SvgPicture.asset('assets/images/night.svg');
+            ? asset = 'assets/images/day.svg'
+            : asset = 'assets/images/night.svg';
         break;
       case WeatherCondition.fog:
-        svgIcon = SvgPicture.asset('assets/images/cloudy.svg');
+        asset = 'assets/images/cloudy.svg';
         break;
       case WeatherCondition.snow:
-        svgIcon = SvgPicture.asset('assets/images/snowy-6.svg');
+        asset = 'assets/images/snowy-6.svg';
         break;
       case WeatherCondition.rain:
-        svgIcon = SvgPicture.asset('assets/images/rainy-7.svg');
+        asset = 'assets/images/rainy-7.svg';
         break;
       case WeatherCondition.atmosphere:
-        svgIcon = SvgPicture.asset('assets/images/cloudy.svg');
+        asset = 'assets/images/cloudy.svg';
         break;
 
       default:
-        svgIcon = SvgPicture.asset('assets/images/weather.svg');
+        asset = 'assets/images/weather.svg';
     }
-
+    svgIcon = SvgPicture.asset(
+      asset,
+      fit: BoxFit.contain,
+      width: 125,
+    );
     return Padding(padding: const EdgeInsets.only(top: 5), child: svgIcon);
   }
 }

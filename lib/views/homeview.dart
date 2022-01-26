@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/api/openweathermap_weather_api.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/services/forecast_service.dart';
 import 'package:weather_app/viewmodels/city_entry_viewmodel.dart';
 
 import 'package:weather_app/viewmodels/forecast_viewmodel.dart';
@@ -22,22 +24,26 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-
-    onStart();
   }
 
-  Future<void> onStart() async {
+  Future<void> onStart(BuildContext context) async {
     // any init in here ?
+    final city = 'London';
+    final forecast =
+        await Provider.of<ForecastViewModel>(context).getLatestWeather(city);
+    if (forecast != null) {
+      Provider.of<ForecastViewModel>(context).updateModel(forecast, city);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ForecastViewModel>(
-      builder: (context, model, child) => Scaffold(
+    return Consumer<ForecastViewModel>(builder: (context, model, child) {
+      return Scaffold(
         body: _buildGradientContainer(
             model.condition, model.isDaytime, buildHomeView(context)),
-      ),
-    );
+      );
+    });
   }
 
   Widget buildHomeView(BuildContext context) {

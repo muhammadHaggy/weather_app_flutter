@@ -10,11 +10,11 @@ import 'package:weather_app/utils/strings.dart';
 import 'package:weather_app/utils/temperature_convert.dart';
 
 class ForecastViewModel with ChangeNotifier {
-  bool isRequestPending = false;
+  bool isRequestPending = true;
   bool isWeatherLoaded = false;
   bool isRequestError = false;
 
-  late WeatherCondition _condition;
+  WeatherCondition _condition = WeatherCondition.atmosphere;
   late String _description;
   late double _minTemp;
   late double _temp;
@@ -26,7 +26,7 @@ class ForecastViewModel with ChangeNotifier {
   late double _latitude;
   late double _longitude;
   late List<Weather> _daily;
-  late bool _isDayTime;
+  bool _isDayTime = true;
 
   WeatherCondition get condition => _condition;
   String get description => _description;
@@ -48,7 +48,7 @@ class ForecastViewModel with ChangeNotifier {
     forecastService = ForecastService(OpenWeatherMapWeatherApi());
   }
 
-  Future<Forecast> getLatestWeather(String city) async {
+  Future<Forecast?> getLatestWeather(String city) async {
     setRequestPendingState(true);
     isRequestError = false;
 
@@ -62,12 +62,15 @@ class ForecastViewModel with ChangeNotifier {
     } catch (e) {
       isRequestError = true;
     }
+    if (!isRequestError) {
+      isWeatherLoaded = true;
+      updateModel(latest, city);
 
-    isWeatherLoaded = true;
-    updateModel(latest, city);
-    setRequestPendingState(false);
+      setRequestPendingState(false);
+      notifyListeners();
+      return latest;
+    }
     notifyListeners();
-    return latest;
   }
 
   void setRequestPendingState(bool isPending) {
