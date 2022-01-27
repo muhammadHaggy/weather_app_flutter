@@ -12,7 +12,7 @@ class CityEntryViewModel with ChangeNotifier {
 
   void refreshWeather(String newCity, BuildContext context) {
     Provider.of<ForecastViewModel>(context, listen: false)
-        .getLatestWeather(_city);
+        .getLatestWeatherFromCity(_city);
 
     notifyListeners();
   }

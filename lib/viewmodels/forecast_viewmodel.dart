@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:weather_app/api/openweathermap_weather_api.dart';
 import 'package:weather_app/models/forecast.dart';
+import 'package:weather_app/models/location.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/forecast_service.dart';
 import 'package:weather_app/utils/strings.dart';
@@ -48,7 +49,7 @@ class ForecastViewModel with ChangeNotifier {
     forecastService = ForecastService(OpenWeatherMapWeatherApi());
   }
 
-  Future<Forecast?> getLatestWeather(String city) async {
+  Future<Forecast?> getLatestWeatherFromCity(String city) async {
     setRequestPendingState(true);
     isRequestError = false;
 
@@ -57,7 +58,7 @@ class ForecastViewModel with ChangeNotifier {
       await Future.delayed(Duration(seconds: 1), () => {});
 
       latest = await forecastService
-          .getWeather(city)
+          .getWeatherfromCity(city)
           .catchError((onError) => isRequestError = true);
     } catch (e) {
       isRequestError = true;
@@ -65,6 +66,31 @@ class ForecastViewModel with ChangeNotifier {
     if (!isRequestError) {
       isWeatherLoaded = true;
       updateModel(latest, city);
+
+      setRequestPendingState(false);
+      notifyListeners();
+      return latest;
+    }
+    notifyListeners();
+  }
+
+  Future<Forecast?> getLatestWeatherFromLocation(Location location) async {
+    setRequestPendingState(true);
+    isRequestError = false;
+
+    late Forecast latest;
+    try {
+      await Future.delayed(Duration(seconds: 1), () => {});
+
+      latest = await forecastService
+          .getWeatherFromLocation(location)
+          .catchError((onError) => isRequestError = true);
+    } catch (e) {
+      isRequestError = true;
+    }
+    if (!isRequestError) {
+      isWeatherLoaded = true;
+      updateModel(latest, '');
 
       setRequestPendingState(false);
       notifyListeners();

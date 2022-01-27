@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/api/openweathermap_weather_api.dart';
+import 'package:weather_app/models/location.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/services/forecast_service.dart';
@@ -9,6 +10,7 @@ import 'package:weather_app/viewmodels/forecast_viewmodel.dart';
 import 'package:weather_app/views/weather_description_view.dart';
 import 'package:weather_app/views/weather_summary_view.dart';
 import 'package:weather_app/views/gradient_container.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'city_entry_view.dart';
 import 'daily_summary_view.dart';
@@ -26,23 +28,66 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
   Future<void> onStart(BuildContext context) async {
     // any init in here ?
-    final city = 'London';
-    final forecast =
-        await Provider.of<ForecastViewModel>(context).getLatestWeather(city);
-    if (forecast != null) {
-      Provider.of<ForecastViewModel>(context).updateModel(forecast, city);
+    try {
+      final position = await _determinePosition();
+      final location =
+          Location(longitude: position.longitude, latitude: position.latitude);
+      Provider.of<ForecastViewModel>(context, listen: false)
+          .getLatestWeatherFromLocation(location);
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ForecastViewModel>(builder: (context, model, child) {
-      return Scaffold(
-        body: _buildGradientContainer(
-            model.condition, model.isDaytime, buildHomeView(context)),
-      );
+    return Builder(builder: (context) {
+      onStart(context);
+      return Consumer<ForecastViewModel>(builder: (context, model, child) {
+        return Scaffold(
+          body: _buildGradientContainer(
+              model.condition, model.isDaytime, buildHomeView(context)),
+        );
+      });
     });
   }
 
@@ -120,7 +165,7 @@ class _HomeViewState extends State<HomeView> {
       ForecastViewModel weatherVM, BuildContext context) {
     // get the current city
     String city = Provider.of<CityEntryViewModel>(context, listen: false).city;
-    return weatherVM.getLatestWeather(city);
+    return weatherVM.getLatestWeatherFromCity(city);
   }
 
   GradientContainer _buildGradientContainer(
