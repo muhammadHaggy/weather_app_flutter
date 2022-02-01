@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/viewmodels/forecast_viewmodel.dart';
 
 class CityEntryViewModel with ChangeNotifier {
-  late String _city;
+  String _city = '';
 
   CityEntryViewModel();
 

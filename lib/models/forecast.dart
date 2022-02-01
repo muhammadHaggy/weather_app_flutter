@@ -7,7 +7,6 @@ class Forecast {
   final List<Weather> daily;
   final Weather current;
   final bool isDayTime;
-  String city = '';
 
   Forecast(
       {required this.lastUpdated,
