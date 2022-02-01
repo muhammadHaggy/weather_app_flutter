@@ -65,8 +65,10 @@ class _CityEntryState extends State<CityEntryView> {
                         controller: cityEditController,
                         decoration:
                             InputDecoration.collapsed(hintText: "Enter City"),
-                        onSubmitted: (String city) =>
-                            {model.refreshWeather(city, context)})),
+                        onSubmitted: (String city) {
+                          model.updateCity(city);
+                          return model.refreshWeather(city, context);
+                        })),
               ],
             )));
   }

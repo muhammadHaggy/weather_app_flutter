@@ -65,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<void> onStart(BuildContext context) async {
+  Future<void> setCurrentLocationWeather(BuildContext context) async {
     // any init in here ?
     try {
       final position = await _determinePosition();
@@ -81,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      onStart(context);
+      setCurrentLocationWeather(context);
       return Consumer<ForecastViewModel>(builder: (context, model, child) {
         return Scaffold(
           body: _buildGradientContainer(
@@ -165,7 +165,10 @@ class _HomeViewState extends State<HomeView> {
       ForecastViewModel weatherVM, BuildContext context) {
     // get the current city
     String city = Provider.of<CityEntryViewModel>(context, listen: false).city;
-    return weatherVM.getLatestWeatherFromCity(city);
+    if (city != '') {
+      return weatherVM.getLatestWeatherFromCity(city);
+    }
+    return setCurrentLocationWeather(context);
   }
 
   GradientContainer _buildGradientContainer(
