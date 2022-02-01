@@ -62,6 +62,7 @@ class ForecastViewModel with ChangeNotifier {
           .catchError((onError) => isRequestError = true);
     } catch (e) {
       isRequestError = true;
+      setRequestPendingState(false);
     }
     if (!isRequestError) {
       isWeatherLoaded = true;
