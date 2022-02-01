@@ -55,7 +55,7 @@ class ForecastViewModel with ChangeNotifier {
 
     late Forecast latest;
     try {
-      await Future.delayed(Duration(seconds: 1), () => {});
+      await Future.delayed(const Duration(seconds: 1), () => {});
 
       latest = await forecastService
           .getWeatherfromCity(city)
@@ -81,7 +81,7 @@ class ForecastViewModel with ChangeNotifier {
 
     late Forecast latest;
     try {
-      await Future.delayed(Duration(seconds: 1), () => {});
+      await Future.delayed(const Duration(seconds: 1), () => {});
 
       latest = await forecastService
           .getWeatherFromLocation(location)

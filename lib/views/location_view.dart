@@ -5,7 +5,7 @@ class LocationView extends StatelessWidget {
   final double latitude;
   final String city;
 
-  LocationView(
+  const LocationView(
       {required this.longitude, required this.latitude, required this.city});
 
   @override
@@ -26,20 +26,20 @@ class LocationView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.location_on, color: Colors.white, size: 15),
-            SizedBox(width: 10),
-            Text(this.longitude.toString(),
+            const Icon(Icons.location_on, color: Colors.white, size: 15),
+            const SizedBox(width: 10),
+            Text(longitude.toString(),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                )),
+            const Text(' , ',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
                 )),
-            Text(' , ',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
-            Text(this.latitude.toString(),
-                style: TextStyle(
+            Text(latitude.toString(),
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,
                 )),

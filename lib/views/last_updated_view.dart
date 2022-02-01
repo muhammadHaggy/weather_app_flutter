@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 class LastUpdatedView extends StatelessWidget {
   final DateTime lastUpdatedOn;
 
-  LastUpdatedView({required this.lastUpdatedOn});
+  const LastUpdatedView({required this.lastUpdatedOn});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 20.0, left: 00),
+        padding: const EdgeInsets.only(top: 20.0, left: 00),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(
+          const Icon(
             Icons.access_time,
             color: Colors.black45,
             size: 15,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Text(
-              'Last updated on ${TimeOfDay.fromDateTime(this.lastUpdatedOn).format(context)}',
-              style: TextStyle(
+              'Last updated on ${TimeOfDay.fromDateTime(lastUpdatedOn).format(context)}',
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.black45,
               ))

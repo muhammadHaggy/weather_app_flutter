@@ -28,13 +28,13 @@ class _CityEntryState extends State<CityEntryView> {
   Widget build(BuildContext context) {
     return Consumer<CityEntryViewModel>(
         builder: (context, model, child) => Container(
-            margin: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
-            padding: EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
+            margin: const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 50),
+            padding: const EdgeInsets.only(left: 5, top: 5, right: 20, bottom: 00),
             height: 50,
             width: 200,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(3),
                   topRight: Radius.circular(3),
                   bottomLeft: Radius.circular(3),
@@ -44,7 +44,7 @@ class _CityEntryState extends State<CityEntryView> {
                   color: Colors.black.withOpacity(0.3),
                   spreadRadius: 3,
                   blurRadius: 5,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
@@ -59,12 +59,12 @@ class _CityEntryState extends State<CityEntryView> {
                     model.refreshWeather(cityEditController.text, context);
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                     child: TextField(
                         controller: cityEditController,
                         decoration:
-                            InputDecoration.collapsed(hintText: "Enter City"),
+                            const InputDecoration.collapsed(hintText: "Enter City"),
                         onSubmitted: (String city) {
                           model.updateCity(city);
                           return model.refreshWeather(city, context);

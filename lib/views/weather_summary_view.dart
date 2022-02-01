@@ -8,7 +8,7 @@ class WeatherSummary extends StatelessWidget {
   final double feelsLike;
   final bool isdayTime;
 
-  WeatherSummary(
+  const WeatherSummary(
       {required this.condition,
       required this.temp,
       required this.feelsLike,
@@ -22,7 +22,7 @@ class WeatherSummary extends StatelessWidget {
           children: [
             Text(
               '${_formatTemperature(temp)}°ᶜ',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 50,
                 color: Colors.white,
                 fontWeight: FontWeight.w300,
@@ -30,7 +30,7 @@ class WeatherSummary extends StatelessWidget {
             ),
             Text(
               'Feels like ${_formatTemperature(feelsLike)}°ᶜ',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w300,

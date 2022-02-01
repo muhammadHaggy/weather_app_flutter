@@ -93,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget buildHomeView(BuildContext context) {
     return Consumer<ForecastViewModel>(
-        builder: (context, weatherViewModel, child) => Container(
+        builder: (context, weatherViewModel, child) => SizedBox(
             height: MediaQuery.of(context).size.height,
             child: RefreshIndicator(
                 color: Colors.transparent,
@@ -105,7 +105,7 @@ class _HomeViewState extends State<HomeView> {
                     weatherViewModel.isRequestPending
                         ? buildBusyIndicator()
                         : weatherViewModel.isRequestError
-                            ? Center(
+                            ? const Center(
                                 child: Text('Ooops...something went wrong',
                                     style: TextStyle(
                                         fontSize: 21, color: Colors.white)))
@@ -115,17 +115,17 @@ class _HomeViewState extends State<HomeView> {
                                   latitude: weatherViewModel.latitide,
                                   city: weatherViewModel.city,
                                 ),
-                                SizedBox(height: 50),
+                                const SizedBox(height: 50),
                                 WeatherSummary(
                                     condition: weatherViewModel.condition,
                                     temp: weatherViewModel.temp,
                                     feelsLike: weatherViewModel.feelsLike,
                                     isdayTime: weatherViewModel.isDaytime),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 WeatherDescriptionView(
                                     weatherDescription:
                                         weatherViewModel.description),
-                                SizedBox(height: 140),
+                                const SizedBox(height: 140),
                                 buildDailySummary(weatherViewModel.daily),
                                 LastUpdatedView(
                                     lastUpdatedOn:
@@ -138,11 +138,11 @@ class _HomeViewState extends State<HomeView> {
   Widget buildBusyIndicator() {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       CircularProgressIndicator(
-          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white)),
-      SizedBox(
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.white)),
+      const SizedBox(
         height: 20,
       ),
-      Text('Please Wait...',
+      const Text('Please Wait...',
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
@@ -155,7 +155,7 @@ class _HomeViewState extends State<HomeView> {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: dailyForecast
-            .map((item) => new DailySummaryView(
+            .map((item) => DailySummaryView(
                   weather: item,
                 ))
             .toList());
@@ -176,9 +176,9 @@ class _HomeViewState extends State<HomeView> {
     GradientContainer container;
 
     // if night time then just default to a blue/grey
-    if (isDayTime != null && !isDayTime)
+    if (!isDayTime) {
       container = GradientContainer(color: Colors.blueGrey, child: child);
-    else {
+    } else {
       switch (condition) {
         case WeatherCondition.clear:
         case WeatherCondition.lightCloud:

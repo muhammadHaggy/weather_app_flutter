@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DailySummaryView extends StatelessWidget {
   final Weather weather;
 
-  DailySummaryView({required this.weather});
+  const DailySummaryView({required this.weather});
 
   @override
   Widget build(BuildContext context) {
@@ -15,26 +15,26 @@ class DailySummaryView extends StatelessWidget {
         toBeginningOfSentenceCase(DateFormat('EEE').format(weather.date));
     final screenwidth = MediaQuery.of(context).size.width;
     return Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Row(
           children: [
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Text(dayOfWeek ?? '',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.w300)),
               Text(
                   "${TemperatureConvert.kelvinToCelsius(weather.temp).round().toString()}°",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w500)),
             ]),
             Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5),
                 child: Container(
                     alignment: Alignment.center,
                     child: _mapWeatherConditionToImage(weather.condition)))

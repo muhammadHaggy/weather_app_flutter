@@ -9,7 +9,7 @@ class GradientContainer extends StatelessWidget {
   final Widget child;
   final MaterialColor color;
 
-  GradientContainer({
+  const GradientContainer({
     Key? key,
     required this.color,
     required this.child,
@@ -22,7 +22,7 @@ class GradientContainer extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          stops: [0, 1.0],
+          stops: const [0, 1.0],
           colors: [
             color[800]!,
             color[400]!,
